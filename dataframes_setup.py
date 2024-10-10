@@ -1,3 +1,4 @@
+import pandas as pd
 #Cargar datos de usuarios, voy a usar "df" para indicar que es un dataframe.
 df_users=pd.read_csv('users.csv')
 df_movies=pd.read_csv('movies.csv')
