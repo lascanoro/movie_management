@@ -10,6 +10,3 @@ borrowing_records= [
 #Ahora que ya esta creado el diccionario, vamos a crear el dataframe de borrowing
 df_borrowing_records=pd.DataFrame(borrowing_records)
 #Ahora imprimo para probar que se creo correctamente
-print(df_borrowing_records)
-print(df_users)
-print(df_movies)
