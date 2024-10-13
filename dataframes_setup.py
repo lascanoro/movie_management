@@ -1,17 +1,17 @@
 import pandas as pd
-#Cargar datos de usuarios, voy a usar "df" para indicar que es un dataframe.
+#Load user data, I will use "df" to indicate it's a dataframe.
 df_users=pd.read_csv('users.csv')
 df_movies=pd.read_csv('movies.csv')
-#Creo las columnas para el data frame de borrowing
+#Create the columns for the borrowing dataframe.
 borrowing_records= ['user id','movie ids','borrow_date']
 
-#Ahora que ya estan especificadas las columnas que queiro, vamos a crear el dataframe de borrowing
+# Now that the columns I want are specified, let's create the borrowing dataframe.
 df_borrowing_records=pd.DataFrame(columns=borrowing_records)
-#Creo el csv de borrowing records
+#Create the borrowing records CSV
 df_borrowing_records.to_csv('borrowing_records.csv',index=False)
-#Agrego columna descripcion a data frame movies
+# Add the description column to the movies dataframe.
 df_movies['description']=None
-#Ahora creo un diccionario con la descripcion de la pelicula.
+# Now create a dictionary with the movie descriptions.
 movie_descriptions= {
     101:f"A thief who enters people's dreams to steal secrets must pull off his toughest mission yet: planting an idea in someone's subconscious.",
     102:f"A computer hacker discovers reality is a simulated world, and joins a rebellion to free humanity from its machine overlords.",
@@ -24,7 +24,7 @@ movie_descriptions= {
     109:f"Forrest Gump, a slow-witted but kind-hearted man, unwittingly influences several historical events while navigating life and love in America.",
     110:f"Oskar Schindler, a German businessman, saves the lives of over a thousand Jewish refugees during the Holocaust by employing them in his factories"
 }
-#llenar la columna 'description' con la informacion de movie descriptions
+#Fill the 'description' column with the movie descriptions information.
 df_movies['description']=df_movies['Movie ID'].map(movie_descriptions)
-#Guardo el data frame actualizado en el .csv 
+#Save the updated dataframe to the .csv.
 df_movies.to_csv('movies.csv',index=False)
