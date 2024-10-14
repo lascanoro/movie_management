@@ -1,6 +1,6 @@
 def mostrar_bienvenida():
     print("Welcome to the Super Movie Rental Management System! c:")
-    print("Please choose a user: c:")
+    print("Please choose a user: ")
     print("1. Fulano")
     print("2. Fulana")
     print("3. Fulene")
@@ -15,7 +15,7 @@ def elegir_usuario():
                 usuario = "Fulana"
             elif opcion == '3':
                 usuario = "Fulene"
-            print(f"¡Welcome, {user}! Now ypu are in the main Menú.")
+            print(f"¡Welcome, {usuario}! Now you are in the main Menú. c:")
             break
         else:
             print("Invalid option :c. Please choose a number between 1 and 3.")
