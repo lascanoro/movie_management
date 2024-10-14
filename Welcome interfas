@@ -1,6 +1,6 @@
 def mostrar_bienvenida():
-    print("¡Bienvenido al sistema de administración de renta de películas!")
-    print("Por favor, elige un usuario:")
+    print("Welcome to the Super Movie Rental Management System! c:")
+    print("Please choose a user: c:")
     print("1. Fulano")
     print("2. Fulana")
     print("3. Fulene")
@@ -15,10 +15,10 @@ def elegir_usuario():
                 usuario = "Fulana"
             elif opcion == '3':
                 usuario = "Fulene"
-            print(f"¡Bienvenido, {usuario}! Ahora estás en el menú principal.")
+            print(f"¡Welcome, {user}! Now ypu are in the main Menú.")
             break
         else:
-            print("Opción inválida. Por favor, elige un número entre 1 y 3.")
+            print("Invalid option :c. Please choose a number between 1 and 3.")
 
 # Llamada a las funciones
 mostrar_bienvenida()
