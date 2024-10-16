@@ -1,25 +1,5 @@
-def mostrar_bienvenida():
-    print("¡Bienvenido al sistema de administración de renta de películas!")
-    print("Por favor, elige un usuario:")
-    print("1. Fulano")
-    print("2. Fulana")
-    print("3. Fulene")
+import pandas as pd
 
-def elegir_usuario():
-    while True:
-        opcion = input("Introduce el número del usuario (1-3): ")
-        if opcion in ['1', '2', '3']:
-            if opcion == '1':
-                usuario = "Fulano"
-            elif opcion == '2':
-                usuario = "Fulana"
-            elif opcion == '3':
-                usuario = "Fulene"
-            print(f"¡Bienvenido, {usuario}! Ahora estás en el menú principal.")
-            break
-        else:
-            print("Opción inválida. Por favor, elige un número entre 1 y 3.")
 
-# Llamada a las funciones
-mostrar_bienvenida()
-elegir_usuario()
+#Cargar el df
+df_users=pd.read_csv('users.csv')
