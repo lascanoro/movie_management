@@ -1,14 +1,82 @@
 import pandas as pd
+#Load user data, I will use "df" to indicate it's a dataframe.
+df_users=pd.read_csv('users.csv')
+df_movies=pd.read_csv('movies.csv')
+#Create the columns for the borrowing dataframe.
+borrowing_records= ['user id','movie ids','borrow_date']
+
+# Now that the columns I want are specified, let's create the borrowing dataframe.
+df_borrowing_records=pd.DataFrame(columns=borrowing_records)
+#Create the borrowing records CSV
+df_borrowing_records.to_csv('borrowing_records.csv',index=False)
+# Add the description column to the movies dataframe.
+df_movies['description']=None
+# Now create a dictionary with the movie descriptions.
+movie_descriptions= {
+    101:f"A thief who enters people's dreams to steal secrets must pull off his toughest mission yet: planting an idea in someone's subconscious.",
+    102:f"A computer hacker discovers reality is a simulated world, and joins a rebellion to free humanity from its machine overlords.",
+    103:f"A group of astronauts embarks on a journey through a wormhole to find a new home for humanity as Earth faces extinction.",
+    104:f"A poor family schemes to infiltrate a wealthy household, leading to unexpected and dark consequences.",
+    105:f"The aging patriarch of a powerful crime family hands control to his reluctant son, sparking a violent struggle for power.",
+    106:f"The lives of two hitmen, a boxer, a gangster, and his wife intertwine through a series of violent and darkly humorous events.",
+    107:f"Batman faces his greatest challenge yet as he battles the Joker, a criminal mastermind who seeks to create chaos in Gotham City.",
+    108:f"An insomniac office worker forms an underground fight club with a charismatic soap salesman, leading to an anarchic movement that challenges consumerism.",
+    109:f"Forrest Gump, a slow-witted but kind-hearted man, unwittingly influences several historical events while navigating life and love in America.",
+    110:f"Oskar Schindler, a German businessman, saves the lives of over a thousand Jewish refugees during the Holocaust by employing them in his factories"
+}
+#Fill the 'description' column with the movie descriptions information.
+df_movies['description']=df_movies['Movie ID'].map(movie_descriptions)
+#Save the updated dataframe to the .csv.
+df_movies.to_csv('movies.csv',index=False)
+
+#TEST- WELCOME INTERFAS.y opciones para el usuario
+def welcome_user(df_users):
+    print("Welcome to the movie managament")
+    print("Pick one from the following menu:")
+    print("1.Enter your user ID")
+    print("2.See all users")
+welcome_user(df_users)
+
+def user_menu(user_name):
+    print(f"{user_name}, Pick one option from the following menu:")
+    print("1. Rent")
+    print("2. Return")
+    print("3. Administrator")
+#Defino la variable que toma la respuesta del usuario
+user_welcome_menu=input("Pick one from the following option (1 or 2):")
+if user_welcome_menu == '1':
+    user_id = input("Please enter your User ID: ")
+    
+    # Busca el nombre del usuario en el DataFrame
+    user_row = df_users[df_users['User ID'] == int(user_id)]  # Compara el User ID ingresado
+    
+    if not user_row.empty:
+        user_name = user_row['User Name'].values[0]  # Extrae el nombre del usuario
+        print(f"Welcome {user_name}! Now you are in the main menu")
+        
+        
+    #Llamo a la funcion building que creamos antes
+        user_menu(user_name)
+        user_choice=input("Pick one from the following menu(1,2,3):")
+        if user_choice == '1':
+            print("You selected Rent.")
+        if user_choice =='2':
+            print("You selected Return")
+        if user_choice == '3':
+            print('You selected Administrator')
+
+        #Nuevemo menu
+        user_choice=input('Choose an option: 1 ')
+
+    
 
 
-#Cargar el df
-def iniciar_sistema(df_users):
- df_users=pd.read_csv('users.csv')
- print (df_users)
-
-def mostrar_usuarios(df_users):
-    if df_users.empty:
-        print("No hay usuarios registrados.")
     else:
-        print("Lista de usuarios:")
-        print(df_users[['user_id', 'name']])
+        print(f"No user found with User ID: {user_id}")
+
+        
+elif user_welcome_menu == '2':
+    print("Here are all users:")
+    print(df_users)  # Muestra todos los usuarios
+else:
+    print("Invalid option. Please choose 1 or 2.")
