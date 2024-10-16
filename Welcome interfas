@@ -2,4 +2,13 @@ import pandas as pd
 
 
 #Cargar el df
-df_users=pd.read_csv('users.csv')
+def iniciar_sistema(df_users):
+ df_users=pd.read_csv('users.csv')
+ print (df_users)
+
+def mostrar_usuarios(df_users):
+    if df_users.empty:
+        print("No hay usuarios registrados.")
+    else:
+        print("Lista de usuarios:")
+        print(df_users[['user_id', 'name']])
