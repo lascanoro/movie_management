@@ -32,13 +32,13 @@ df_movies.to_csv('movies.csv',index=False)
 #TEST- WELCOME INTERFAS.y opciones para el usuario
 def welcome_user(df_users):
     print("Welcome to the movie managament")
-    print("Pick one from the following menu:")
+    print("Choose one from the following menu:")
     print("1.Enter your user ID")
     print("2.See all users")
 welcome_user(df_users)
 
 def user_menu(user_name):
-    print(f"{user_name}, Pick one option from the following menu:")
+    print(f"Thanks for access our system {user_name}, please choose one option from the following menu:")
     print("1. Rent")
     print("2. Return")
     print("3. Administrator")
