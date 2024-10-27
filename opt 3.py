@@ -2,7 +2,7 @@ def mostrar_menu():
     # Display the main menu and get the user's choice
     return int(input(
         "Please choose your option\n"
-        "(1) Available movies\n"
+        "(1) Pick a movie\n"
         "(2) See description\n"
         "(3) Full movie list\n"
         "(4) Return to menu\n"
