@@ -146,67 +146,67 @@ def add_or_create_new_users():
 
 
     
+if __name__=="__main__":
+    #--------------------ACA PROGRAMAMOS---------------------------------------
+    welcome_user(df_users)
 
-#--------------------ACA PROGRAMAMOS---------------------------------------
-welcome_user(df_users)
 
-
-user_welcome_menu=input("Please enter your choose:")
-if user_welcome_menu == '1':
-    user_id = input("Please enter your User ID: ")
-    
-    # Busca el nombre del usuario en el DataFrame
-    user_row = df_users[df_users['User ID'] == int(user_id)]  # Compara el User ID ingresado
-    
-    if not user_row.empty:
-        user_name = user_row['User Name'].values[0]  # Extrae el nombre del usuario
-        print(f"Welcome {user_name}! Now you are in the main menu")
+    user_welcome_menu=input("Please enter your choose:")
+    if user_welcome_menu == '1':
+        user_id = input("Please enter your User ID: ")
         
-
-    #Llamo a la funcion user_name que creamos antes
-        user_menu(user_name)
-        user_choice=input("Please enter your choose::")
-
-
-        if user_choice== '1':
-            print('Daniela esta armando esta opcion')
-        elif user_choice== '2':
-            print('Marcela esta armando este menu')
-        elif user_choice=='3':
-           while True:
-            password_admin=input('Please ingrese the password administrador:')
-
-            if password_admin=="group4":#Esta es la contrasena
-                admin_menu()
-                admin_choice=input('Please choose an option:')
-
-                if admin_choice=='1':
-                 print('You select add o removie movies')
-                 add_or_remove_movies()
-                elif admin_choice=='2':
-                 print('You select see all the availables copies')
-                 view_available_copies()
-                elif admin_choice=='3':
-                 print('You select create new users')
-                 add_or_create_new_users()
-                break
+        # Busca el nombre del usuario en el DataFrame
+        user_row = df_users[df_users['User ID'] == int(user_id)]  # Compara el User ID ingresado
+        
+        if not user_row.empty:
+            user_name = user_row['User Name'].values[0]  # Extrae el nombre del usuario
+            print(f"Welcome {user_name}! Now you are in the main menu")
             
 
-            else:
-              print("Incorrect password, please try again.")
-              
-        else:
-            print('Invalid option.Please select 1 or 2.')
-        
-    else:
-        print(f"No user found with User ID: {user_id}")
+        #Llamo a la funcion user_name que creamos antes
+            user_menu(user_name)
+            user_choice=input("Please enter your choose::")
 
-        
-elif user_welcome_menu == '2':
-    print("Here are all users:")
-    print(df_users)  # Muestra todos los usuarios
-else:
-    print("Invalid option. Please choose 1 or 2.")
+
+            if user_choice== '1':
+                print('Daniela esta armando esta opcion')
+            elif user_choice== '2':
+                print('Marcela esta armando este menu')
+            elif user_choice=='3':
+              while True:
+                password_admin=input('Please ingrese the password administrador:')
+
+                if password_admin=="group4":#Esta es la contrasena
+                    admin_menu()
+                    admin_choice=input('Please choose an option:')
+
+                    if admin_choice=='1':
+                      print('You select add o removie movies')
+                      add_or_remove_movies()
+                    elif admin_choice=='2':
+                      print('You select see all the availables copies')
+                      view_available_copies()
+                    elif admin_choice=='3':
+                     print('You select create new users')
+                    add_or_create_new_users()
+                    break
+                
+
+                else:
+                 print("Incorrect password, please try again.")
+                
+            else:
+                print('Invalid option.Please select 1 or 2.')
+            
+        else:
+            print(f"No user found with User ID: {user_id}")
+
+            
+    elif user_welcome_menu == '2':
+        print("Here are all users:")
+        print(df_users)  # Muestra todos los usuarios
+    else:
+        print("Invalid option. Please choose 1 or 2.")
 
 
 
