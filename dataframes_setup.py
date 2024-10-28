@@ -1,4 +1,5 @@
 import pandas as pd
+df_movies = pd.read_csv('movies.csv')
 #Load user data, I will use "df" to indicate it's a dataframe.
 df_users=pd.read_csv('users.csv')
 df_movies=pd.read_csv('movies.csv')
