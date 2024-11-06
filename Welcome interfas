@@ -1,223 +1,182 @@
+import os
 import pandas as pd
 
-#--------------------------EN ESTE BLOQUE ORDENAMOS LOS DATA FRAMES------------------
-#Load user data, I will use "df" to indicate it's a dataframe.
-df_users=pd.read_csv('users.csv')
-df_movies=pd.read_csv('movies.csv')
-#Create the columns for the borrowing dataframe.
-borrowing_records= ['user id','movie ids','borrow_date']
+# Definir la ruta completa a la carpeta de los archivos
+base_path = "C:/Users/patri/Desktop/Phython/piton clonasion/movie_management/movie_management/"
 
-# Now that the columns I want are specified, let's create the borrowing dataframe.
-df_borrowing_records=pd.DataFrame(columns=borrowing_records)
-#Create the borrowing records CSV
-df_borrowing_records.to_csv('borrowing_records.csv',index=False)
-# Add the description column to the movies dataframe.
-df_movies['description']=None
-# Now create a dictionary with the movie descriptions.
-movie_descriptions= {
-    101:f"A thief who enters people's dreams to steal secrets must pull off his toughest mission yet: planting an idea in someone's subconscious.",
-    102:f"A computer hacker discovers reality is a simulated world, and joins a rebellion to free humanity from its machine overlords.",
-    103:f"A group of astronauts embarks on a journey through a wormhole to find a new home for humanity as Earth faces extinction.",
-    104:f"A poor family schemes to infiltrate a wealthy household, leading to unexpected and dark consequences.",
-    105:f"The aging patriarch of a powerful crime family hands control to his reluctant son, sparking a violent struggle for power.",
-    106:f"The lives of two hitmen, a boxer, a gangster, and his wife intertwine through a series of violent and darkly humorous events.",
-    107:f"Batman faces his greatest challenge yet as he battles the Joker, a criminal mastermind who seeks to create chaos in Gotham City.",
-    108:f"An insomniac office worker forms an underground fight club with a charismatic soap salesman, leading to an anarchic movement that challenges consumerism.",
-    109:f"Forrest Gump, a slow-witted but kind-hearted man, unwittingly influences several historical events while navigating life and love in America.",
-    110:f"Oskar Schindler, a German businessman, saves the lives of over a thousand Jewish refugees during the Holocaust by employing them in his factories"
+# Imprimir el directorio actual
+print("Current directory:", os.getcwd())
+
+#--------------------------EN ESTE BLOQUE ORDENAMOS LOS DATA FRAMES------------------
+
+# Cargar datos de usuarios y películas usando rutas completas
+df_users = pd.read_csv(base_path + 'users.csv')
+df_movies = pd.read_csv(base_path + 'movies.csv')
+
+# Crear el DataFrame de registros de préstamo y guardarlo con la ruta completa
+df_borrowing_records = pd.DataFrame(columns=['user id', 'movie ids', 'borrow_date'])
+df_borrowing_records.to_csv(base_path + 'borrowing_records.csv', index=False)
+
+# Agregar la columna de descripción a df_movies
+df_movies['description'] = None
+
+# Diccionario con descripciones de películas
+movie_descriptions = {
+    101: "A thief who enters people's dreams to steal secrets must pull off his toughest mission yet: planting an idea in someone's subconscious.",
+    102: "A computer hacker discovers reality is a simulated world, and joins a rebellion to free humanity from its machine overlords.",
+    103: "A group of astronauts embarks on a journey through a wormhole to find a new home for humanity as Earth faces extinction.",
+    104: "A poor family schemes to infiltrate a wealthy household, leading to unexpected and dark consequences.",
+    105: "The aging patriarch of a powerful crime family hands control to his reluctant son, sparking a violent struggle for power.",
+    106: "The lives of two hitmen, a boxer, a gangster, and his wife intertwine through a series of violent and darkly humorous events.",
+    107: "Batman faces his greatest challenge yet as he battles the Joker, a criminal mastermind who seeks to create chaos in Gotham City.",
+    108: "An insomniac office worker forms an underground fight club with a charismatic soap salesman, leading to an anarchic movement that challenges consumerism.",
+    109: "Forrest Gump, a slow-witted but kind-hearted man, unwittingly influences several historical events while navigating life and love in America.",
+    110: "Oskar Schindler, a German businessman, saves the lives of over a thousand Jewish refugees during the Holocaust by employing them in his factories."
 }
-#Fill the 'description' column with the movie descriptions information.
-df_movies['description']=df_movies['Movie ID'].map(movie_descriptions)
-#Save the updated dataframe to the .csv.
-df_movies.to_csv('movies.csv',index=False)
+
+# Llenar la columna 'description' con información del diccionario de descripciones
+df_movies['description'] = df_movies['Movie ID'].map(movie_descriptions)
+df_movies.to_csv(base_path + 'movies.csv', index=False)
 
 #-------------------------FUNCIONES QUE VAMOS A UTILIZAR MAS ABAJO------------
-#funcion menu welcome.
+
+# Función de bienvenida
 def welcome_user(df_users):
-    print("Welcome to the movie managament")
-    print("Please,pick one option from the following menu:")
-    print("1.Enter your user ID")
-    print("2.See all users")
+    print("Welcome to the movie management system")
+    print("Please, pick one option from the following menu:")
+    print("1. Enter your user ID")
+    print("2. See all users")
 
-
-#Funcion para el menu main
+# Función para el menú principal del usuario
 def user_menu(user_name):
-    print(f"{user_name}, Please,pick one option from the following menu(1,2 or 3):")
+    print(f"{user_name}, please pick one option from the following menu (1, 2, or 3):")
     print("1. Rent")
     print("2. Return")
     print("3. Administrator")
-#funcion menu admisnitrador
+
+# Función para el menú de administrador
 def admin_menu():
-              print("Welcome to the Administrator menu.Please pick one option from the following menu(1,2,3):")
-              print('1.Add or remove movies')
-              print('2.Copies availables for movies')
-              print('3.Add or delete  users')
-#funciones que se utilizan adentro del menu administrador---- 
-#----agregar o eliminar peliculas---
+    print("Welcome to the Administrator menu. Please pick one option:")
+    print("1. Add or remove movies")
+    print("2. Check available copies")
+    print("3. Add or delete users")
+
+# Función para agregar o eliminar películas
 def add_or_remove_movies():
-    global df_movies #uso el dataframe ya cargado 
-    action_movies=input('Do you want add o delete a movie ?(add/delete):')
+    global df_movies
+    action_movies = input("Do you want to add or delete a movie? (add/delete): ").strip().lower()
 
     if action_movies == "add":
-        #Pedimos los datos de la pelicula
-        Movie_ID= int(input("Enter the movie ID (It is always a number above 100):"))
-        Title= input("Enter the titles of the movie:")
-        Director= input("Enter the name of the director:")
-        Year= input("Enter the year the movie was released:")
-        New_movie_available_copies=int(input("Enter the number of available copies:"))
-        description=input("Enter the description of the movie:")
-        #Verifica si la pelicula ya existe por el ID
-        if Movie_ID in df_movies['Movie ID'].values:
-            print(f"The movie with ID {Movie_ID} already exists. It cannot be added.")
-        else:
-            new_movie=pd.DataFrame({
-                'Movie ID':[Movie_ID],
-                'Title':[Title],
-                'Director':[Director],
-                'Year':[Year],
-                'Available Copies':[New_movie_available_copies],
-                'description': [description]
-                    
-            })
-            df_movies=pd.concat([df_movies,new_movie], ignore_index=True)
-            print(f"The new movie' {Title} ' has been added.")
-    elif action_movies== "delete":
-        #Pedimos el ID a eliminar.
-        movie_id_delete=int(input("Enter the ID of the movie to delete:"))
-        if movie_id_delete in df_movies:
-            df_movies=df_movies[df_movies['Movie ID']!=movie_id_delete]
-            print(f"The movie with ID: {movie_id_delete} has been deleted.")
-    else:
-        print("Invalid action, please select 'add' or 'delete'.")
-    
-    #Guardamos el data frame actualizado
-    df_movies.to_csv('movies.csv',index=False)
+        movie_id = int(input("Enter the movie ID (must be a number above 100): "))
+        title = input("Enter the title of the movie: ")
+        director = input("Enter the name of the director: ")
+        year = input("Enter the year the movie was released: ")
+        available_copies = int(input("Enter the number of available copies: "))
+        description = input("Enter the description of the movie: ")
 
-#----Funcion para ver numero de copias----
+        if movie_id in df_movies['Movie ID'].values:
+            print(f"The movie with ID {movie_id} already exists and cannot be added.")
+        else:
+            new_movie = pd.DataFrame({
+                'Movie ID': [movie_id],
+                'Title': [title],
+                'Director': [director],
+                'Year': [year],
+                'Available Copies': [available_copies],
+                'description': [description]
+            })
+            df_movies = pd.concat([df_movies, new_movie], ignore_index=True)
+            print(f"The new movie '{title}' has been added.")
+    elif action_movies == "delete":
+        movie_id_delete = int(input("Enter the ID of the movie to delete: "))
+        if movie_id_delete in df_movies['Movie ID'].values:
+            df_movies = df_movies[df_movies['Movie ID'] != movie_id_delete]
+            print(f"The movie with ID {movie_id_delete} has been deleted.")
+        else:
+            print(f"No movie found with ID {movie_id_delete}.")
+    else:
+        print("Invalid action. Please select 'add' or 'delete'.")
+
+    df_movies.to_csv(base_path + 'movies.csv', index=False)
+
+# Función para ver el número de copias disponibles de una película
 def view_available_copies():
-    movie_id_copies=int(input("Enter the movie ID to see the number of available copies:"))
-    #buscamos la pelicula por su id
-    movie_row=df_movies[df_movies['Movie ID']==movie_id_copies]
+    movie_id_copies = int(input("Enter the movie ID to see the number of available copies: "))
+    movie_row = df_movies[df_movies['Movie ID'] == movie_id_copies]
     if not movie_row.empty:
-        available_copies = movie_row['Available Copies'].values[0]  # Obtenemos el número de copias disponibles
+        available_copies = movie_row['Available Copies'].values[0]
         print(f"The movie with ID {movie_id_copies} has {available_copies} available copies.")
     else:
         print(f"No movie was found with ID {movie_id_copies}.")
 
-#----funcion para agregar o eliminar usuarios------
+# Función para agregar o eliminar usuarios
 def add_or_create_new_users():
     global df_users
-    action_user=input('Do you want to add or delete a user? (Add/Delete):')
+    action_user = input("Do you want to add or delete a user? (add/delete): ").strip().lower()
 
     if action_user == "add":
-        #Pedimos los datos de la pelicula
-        add_new_user= int(input("Enter the ID of the new user :"))
-        add_new_name=(input("Enter the name of the new user:"))
-        
-        #Verifica si ID ya existe
-        if add_new_user in df_users['User ID'].values:
-            print(f"The user with ID {add_new_user} already exists. Cannot add.")
+        user_id = int(input("Enter the ID of the new user: "))
+        user_name = input("Enter the name of the new user: ")
+
+        if user_id in df_users['User ID'].values:
+            print(f"The user with ID {user_id} already exists and cannot be added.")
         else:
-            new_user_df=pd.DataFrame({
-                'User ID':[add_new_user],
-                'User Name':[add_new_name],
-                    
+            new_user = pd.DataFrame({
+                'User ID': [user_id],
+                'User Name': [user_name]
             })
-            df_users=pd.concat([df_users,new_user_df], ignore_index=True)
-            print(f"The new user '{add_new_name}' has been added.")
-
-    elif action_user== "delete":
-        #Pedimos el ID a eliminar.
-        user_id_delete=int(input("Enter the ID of the user to delete:"))
+            df_users = pd.concat([df_users, new_user], ignore_index=True)
+            print(f"The new user '{user_name}' has been added.")
+    elif action_user == "delete":
+        user_id_delete = int(input("Enter the ID of the user to delete: "))
         if user_id_delete in df_users['User ID'].values:
-            df_users=df_users[df_users['User ID']!=user_id_delete]
-            print(f"The user with ID: {user_id_delete} has been deleted.")
-    else:
-        print("Invalid action, please select 'add' or 'delete'.")
-     
-    # Save the updated dataframe to the CSV
-    df_users.to_csv('users.csv', index=False)
-
-    
-        
-    
-
-
-
-
-    
-if __name__=="__main__":
-    #--------------------ACA PROGRAMAMOS---------------------------------------
-    welcome_user(df_users)
-
-
-    user_welcome_menu=input("Please enter your choose:")
-    if user_welcome_menu == '1':
-        user_id = input("Please enter your User ID: ")
-        
-        # Busca el nombre del usuario en el DataFrame
-        user_row = df_users[df_users['User ID'] == int(user_id)]  # Compara el User ID ingresado
-        
-        if not user_row.empty:
-            user_name = user_row['User Name'].values[0]  # Extrae el nombre del usuario
-            print(f"Welcome {user_name}! Now you are in the main menu")
-            
-
-        #Llamo a la funcion user_name que creamos antes
-            user_menu(user_name)
-            user_choice=input("Please enter your choose::")
-
-
-            if user_choice== '1':
-                print('Daniela esta armando esta opcion')
-            elif user_choice== '2':
-                print('Marcela esta armando este menu')
-            elif user_choice=='3':
-              while True:
-                password_admin=input('Please ingrese the password administrador:')
-
-                if password_admin=="group4":#Esta es la contrasena
-                    admin_menu()
-                    admin_choice=input('Please choose an option:')
-
-                    if admin_choice=='1':
-                      print('You select add o removie movies')
-                      add_or_remove_movies()
-                    elif admin_choice=='2':
-                      print('You select see all the availables copies')
-                      view_available_copies()
-                    elif admin_choice=='3':
-                     print('You select create new users')
-                    add_or_create_new_users()
-                    break
-                
-
-                else:
-                 print("Incorrect password, please try again.")
-                
-            else:
-                print('Invalid option.Please select 1 or 2.')
-            
+            df_users = df_users[df_users['User ID'] != user_id_delete]
+            print(f"The user with ID {user_id_delete} has been deleted.")
         else:
-            print(f"No user found with User ID: {user_id}")
-
-            
-    elif user_welcome_menu == '2':
-        print("Here are all users:")
-        print(df_users)  # Muestra todos los usuarios
+            print(f"No user found with ID {user_id_delete}.")
     else:
-        print("Invalid option. Please choose 1 or 2.")
+        print("Invalid action. Please select 'add' or 'delete'.")
 
+    df_users.to_csv(base_path + 'users.csv', index=False)
 
+#--------------------INICIO DEL PROGRAMA-------------------------
+welcome_user(df_users)
 
-
+user_welcome_menu = input("Please enter your choice: ")
+if user_welcome_menu == '1':
+    user_id = int(input("Please enter your User ID: "))
+    user_row = df_users[df_users['User ID'] == user_id]
     
-
-       
-
-
-
-
-
+    if not user_row.empty:
+        user_name = user_row['User Name'].values[0]
+        print(f"Welcome {user_name}! You are now in the main menu.")
+        user_menu(user_name)
         
-        
+        user_choice = input("Please enter your choice: ")
+
+        if user_choice == '1':
+            print("The Rent option is under construction.")
+        elif user_choice == '2':
+            return_movie()
+            from return_movie import return_movie
+        elif user_choice == '3':
+            while True:
+                password_admin = input("Please enter the administrator password: ")
+                if password_admin == "group4":
+                    admin_menu()
+                    admin_choice = input("Please choose an option: ")
+                    if admin_choice == '1':
+                        add_or_remove_movies()
+                    elif admin_choice == '2':
+                        view_available_copies()
+                    elif admin_choice == '3':
+                        add_or_create_new_users()
+                    break
+                else:
+                    print("Incorrect password, please try again.")
+        else:
+            print("Opción inválida. Por favor, elige un número entre 1 y 3.")
+
+# Llamada a las funciones
+mostrar_bienvenida()
+elegir_usuario()
